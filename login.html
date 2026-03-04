@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Bpian '19</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body style="background-color: var(--bg);">
+
+<div class="container" style="max-width: 450px; margin-top: 8vh;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary); margin-bottom: 0.5rem;">Bpian '19</h1>
+        <p style="color: var(--text-muted);">Please sign in to your account</p>
+    </div>
+
+    <div class="card" style="padding: 2.5rem;">
+        <div id="login-form">
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Email Address</label>
+            <input type="email" id="email" placeholder="e.g. name@alumni.com" required>
+            
+            <label style="display:block; margin-bottom: 5px; font-weight: 600;">Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+            
+            <button onclick="handleLogin()" style="width: 100%; margin-top: 1rem;">Sign In</button>
+            
+            <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
+                Don't have an account? <a href="#" onclick="toggleAuth()" style="color: var(--accent); font-weight: 600;">Sign Up</a>
+            </p>
+        </div>
+    </div>
+    <p style="text-align: center; margin-top: 2rem;"><a href="index.html" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem;">&larr; Back to Home</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+    function handleLogin() {
+        login(document.getElementById('email').value, document.getElementById('password').value);
+    }
+    function toggleAuth() {
+        alert("Use the SignUp function in auth.js to create a new user, or contact Admin for access.");
+    }
+</script>
+</body>
+</html>

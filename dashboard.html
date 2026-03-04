@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Bpian '19</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body onload="protectPage()">
+
+<nav>
+    <div class="logo">BPIAN '19</div>
+    <div class="links">
+        <a href="dashboard.html" style="border-bottom: 2px solid white;">Dashboard</a>
+        <a href="directory.html">Directory</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <button onclick="logout()" class="secondary" style="margin-left: 15px; padding: 5px 15px;">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 2rem;">
+        <h2 style="margin-top: 0;">Welcome to the Portal</h2>
+        <p>You are logged in as a verified member of the Class of 2019.</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Quick Links</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 10px;"><a href="directory.html" style="color: var(--accent);">Browse Directory &rarr;</a></li>
+                <li style="margin-bottom: 10px;"><a href="events.html" style="color: var(--accent);">View Next Event &rarr;</a></li>
+                <li><a href="notices.html" style="color: var(--accent);">Read Notices &rarr;</a></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Your Profile</h3>
+            <p style="color: var(--text-muted);">Keep your contact information up to date so batchmates can find you.</p>
+            <button class="secondary" disabled>Edit Profile (Coming Soon)</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+</body>
+</html>

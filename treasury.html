@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Treasury | Bpian '19</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body onload="loadTreasury()">
+
+<nav>
+    <a href="index.html" class="logo">BPIAN <span>'19</span></a>
+    <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="treasury.html" style="color: var(--brand-yellow);">Treasury</a>
+    </div>
+</nav>
+
+<header class="hero" style="padding: 50px 20px;">
+    <h1>Batch Treasury</h1>
+    <div class="card" style="display:inline-block; min-width:250px; margin-top:20px;">
+        <h2 style="margin:0; color:var(--brand-blue);">Total Balance</h2>
+        <p id="totalBalance" style="font-size: 2rem; font-weight:800; color:green; margin:10px 0;">0.00 BDT</p>
+    </div>
+</header>
+
+<div class="container" style="max-width: 900px;">
+    <h3>Transaction History</h3>
+    <div id="ledgerContainer">Loading ledger...</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script>
+    async function loadTreasury() {
+        const { data, error } = await supabase.from('treasury').select('*').order('created_at', { ascending: false });
+        if (error) return;
+
+        let balance = 0;
+        const container = document.getElementById('ledgerContainer');
+        
+        container.innerHTML = data.map(item => {
+            const isCredit = item.type === 'credit';
+            balance += isCredit ? parseFloat(item.amount) : -parseFloat(item.amount);
+            
+            return `
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center; border-left: 5px solid ${isCredit ? 'green' : 'red'};">
+                    <div>
+                        <strong>${item.description}</strong><br>
+                        <small style="color:#999;">${item.contributor_name || 'Batch Fund'} • ${new Date(item.created_at).toLocaleDateString()}</small>
+                    </div>
+                    <div style="font-weight:bold; color: ${isCredit ? 'green' : 'red'};">
+                        ${isCredit ? '+' : '-'}${item.amount} BDT
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        document.getElementById('totalBalance').innerText = `${balance.toFixed(2)} BDT`;
+    }
+</script>
+</body>
+</html>

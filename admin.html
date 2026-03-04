@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Bpian '19</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body onload="verifyAdmin(); loadMessages(); loadPendingReg();">
+
+<nav>
+    <a href="dashboard.html" class="logo">BPIAN <span>'19</span></a>
+    <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <button onclick="logout()" class="btn-outline" style="padding: 5px 15px; margin-left:10px;">Logout</button>
+    </div>
+</nav>
+
+<header class="hero" style="padding: 40px 20px;">
+    <h1>Admin Control Center</h1>
+    <p>Manage announcements, gatherings, and alumni messages</p>
+</header>
+
+<div class="container" style="max-width: 800px; padding: 40px 20px;">
+    
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 style="color: var(--brand-blue); margin-top:0;">📢 Post New Notice</h2>
+        <input type="text" id="noticeTitle" placeholder="Notice Title (e.g. Batch Picnic 2024)">
+        <textarea id="noticeContent" placeholder="Write the announcement details here..." style="width:100%; height:100px; margin-bottom:15px; padding:12px; border-radius:8px; border:1px solid #ddd;"></textarea>
+        <button class="btn-yellow" onclick="postNotice()" id="noticeBtn">Publish Notice</button>
+    </div>
+
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 style="color: var(--brand-blue); margin-top:0;">📅 Create New Event</h2>
+        <input type="text" id="eventTitle" placeholder="Event Name">
+        <textarea id="eventDesc" placeholder="Venue, Time, and Description..." style="width:100%; height:80px; margin-bottom:15px; padding:12px; border-radius:8px; border:1px solid #ddd;"></textarea>
+        
+        <label style="display:block; margin-bottom:8px; font-weight:700; color:var(--text-muted);">Event Date</label>
+        <input type="date" id="eventDate" style="margin-bottom:20px;">
+        
+        <button class="btn-yellow" onclick="postEvent()" id="eventBtn">Launch Event</button>
+    </div>
+
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 style="color: var(--brand-blue); margin-top:0;">🎟️ Pending Event Registrations</h2>
+        <div id="pendingRegContainer" style="margin-top: 20px;">
+            <p style="color: var(--text-muted);">Loading registrations...</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 style="color: var(--brand-blue); margin-top:0;">📥 Alumni Messages</h2>
+        <div id="inboxContainer" style="margin-top: 20px;">
+            <p style="color: var(--text-muted);">Loading messages...</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 30px;">
+        <h2 style="color: var(--brand-blue); margin-top:0;">💰 Add Transaction</h2>
+        <input type="text" id="transDesc" placeholder="Description (e.g., Monthly Subscription)">
+        <input type="number" id="transAmount" placeholder="Amount (BDT)">
+        <input type="text" id="transName" placeholder="Contributor Name (Optional)">
+        
+        <select id="transType" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid #ddd;">
+            <option value="credit">Income (Credit)</option>
+            <option value="debit">Expense (Debit)</option>
+        </select>
+        
+        <button class="btn-yellow" onclick="addTransaction()">Record Transaction</button>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+
+<script>
+    // 1. Verify user is actually an admin
+    async function verifyAdmin() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        const { data } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+        if (!data || data.role !== 'admin') {
+            alert("Access Denied: You are not an administrator.");
+            window.location.href = "dashboard.html";
+        }
+    }
+
+    // Logic to Load Messages
+    async function loadMessages() {
+        const container = document.getElementById('inboxContainer');
+        const { data, error } = await supabase
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            container.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            return;
+        }
+
+        if (data.length === 0) {
+            container.innerHTML = `<p style="color:var(--text-muted);">No messages yet.</p>`;
+            return;
+        }
+
+        container.innerHTML = data.map(msg => `
+            <div style="border-bottom: 1px solid #eee; padding: 15px 0; position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <strong style="color: var(--brand-blue);">${msg.full_name}</strong>
+                    <small style="color: #999;">${new Date(msg.created_at).toLocaleDateString()}</small>
+                </div>
+                <div style="font-size: 0.8rem; color: #666; margin-bottom: 8px;">${msg.email}</div>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.4;">${msg.message}</p>
+            </div>
+        `).join('');
+    }
+
+    // 2. Logic to Post Notice
+    async function postNotice() {
+        const title = document.getElementById('noticeTitle').value;
+        const content = document.getElementById('noticeContent').value;
+        if(!title || !content) return alert("Fill all fields");
+
+        const btn = document.getElementById('noticeBtn');
+        btn.innerText = "Posting...";
+
+        const { error } = await supabase.from('notices').insert([{ title, content }]);
+
+        if (error) alert(error.message);
+        else {
+            alert("Notice Published!");
+            location.reload();
+        }
+    }
+
+    // 3. Logic to Create Event
+    async function postEvent() {
+        const title = document.getElementById('eventTitle').value;
+        const description = document.getElementById('eventDesc').value;
+        const event_date = document.getElementById('eventDate').value;
+
+        if(!title || !event_date) return alert("Title and Date are required");
+
+        const btn = document.getElementById('eventBtn');
+        btn.innerText = "Creating...";
+
+        const { error } = await supabase.from('events').insert([{ title, description, event_date }]);
+
+        if (error) alert(error.message);
+        else {
+            alert("Event Created!");
+            location.reload();
+        }
+    }
+
+    // NEW: Treasury Logic
+    async function addTransaction() {
+        const description = document.getElementById('transDesc').value;
+        const amount = document.getElementById('transAmount').value;
+        const type = document.getElementById('transType').value;
+        const contributor_name = document.getElementById('transName').value;
+
+        if(!description || !amount) return alert("Please fill description and amount");
+
+        const { error } = await supabase.from('treasury').insert([{ description, amount, type, contributor_name }]);
+
+        if (error) alert(error.message);
+        else {
+            alert("Transaction Recorded!");
+            location.reload();
+        }
+    }
+
+    // NEW: Event Registration Approval Logic
+    async function loadPendingReg() {
+        const container = document.getElementById('pendingRegContainer');
+        const { data, error } = await supabase
+            .from('event_attendees')
+            .select('*, profiles(full_name), events(title)')
+            .eq('status', 'pending');
+
+        if (error || !data) return;
+
+        if (data.length === 0) {
+            container.innerHTML = `<p style="color:var(--text-muted);">No pending registrations.</p>`;
+            return;
+        }
+
+        container.innerHTML = data.map(reg => `
+            <div style="border-bottom:1px solid #eee; padding:15px 0;">
+                <strong>${reg.profiles.full_name}</strong> registered for <strong>${reg.events.title}</strong>
+                <p style="margin:5px 0; font-size:0.85rem; color:#666;">TrxID: ${reg.payment_reference}</p>
+                <button class="btn-yellow" onclick="confirmPayment('${reg.id}')" style="padding:5px 12px; font-size:0.8rem;">Confirm Payment</button>
+            </div>
+        `).join('');
+    }
+
+    async function confirmPayment(regId) {
+        const { error } = await supabase
+            .from('event_attendees')
+            .update({ status: 'confirmed' })
+            .eq('id', regId);
+
+        if (!error) {
+            alert("User confirmed!");
+            loadPendingReg();
+        }
+    }
+</script>
+</body>
+</html>
