@@ -15,7 +15,9 @@
         <a href="index.html">Home</a>
         <a href="directory.html">Members</a>
         <a href="gallery.html">Gallery</a>
-        <a href="contact.html">Contact</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="login.html" class="btn-login">Login</a>
     </div>
 </nav>
 
@@ -31,13 +33,42 @@
 </header>
 
 <main class="container">
-    <section id="memories" style="padding: 80px 0; text-align: center;">
-        <h2 style="font-size: 2.5rem; color: var(--brand-blue); margin-bottom: 10px;">Batch Gatherings</h2>
-        <p style="color: var(--text-muted); margin-bottom: 40px;">Relive the latest 'BPIAN-19' events from around campus.</p>
-        
+    
+    <section class="section">
+        <div class="section-header">
+            <h2>Official Notices</h2>
+            <a href="notices.html" class="view-all">See All &rarr;</a>
+        </div>
+        <div class="card notice-card">
+            <small>MARCH 05, 2026</small>
+            <h3>Annual Batch Reunion 2026</h3>
+            <p>Official registration for the grand reunion is now open for all members...</p>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="section-header">
+            <h2>Upcoming Events</h2>
+            <a href="events.html" class="view-all">Full Calendar &rarr;</a>
+        </div>
+        <div class="card event-card">
+            <div class="event-date"><span>15</span> Mar</div>
+            <div class="event-info">
+                <h3>Ramadan Iftar Mahfil</h3>
+                <p>School Main Field</p>
+                <button class="btn btn-yellow" style="padding: 5px 15px; font-size: 0.8rem;">Register</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="memories" class="section">
+        <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column;">
+            <h2>Batch Gatherings</h2>
+            <p>Relive the latest 'BPIAN-19' events from around campus.</p>
+        </div>
         <div class="featured-card">
             <div class="image-wrapper">
-                <img src="assets/img/IMG_6970.jpg" alt="Bpian 19 Iftar Mahfil">
+                <img src="assets/img/IMG_6970.jpg" alt="Iftar Mahfil 2019">
                 <div class="overlay">
                     <div class="overlay-text">
                         <h3>Iftar Mahfil</h3>
@@ -45,18 +76,6 @@
                     </div>
                 </div>
             </div>
-            <div class="card-details">
-                <p>A look back at our recent BPIAN-19 gathering on the main school field. This special Iftar Mahfil brought together members of the 2019 SSC batch for a memorable evening of brotherhood.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="search-section">
-        <h2>Batch Directory</h2>
-        <p>Find and connect with your classmates</p>
-        <div class="search-container">
-            <input type="text" placeholder="Search by name or varsity..." id="mainSearch">
-            <span class="search-icon">🔍</span>
         </div>
     </section>
 </main>
@@ -65,7 +84,5 @@
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/js/config.js"></script>
 </body>
 </html>
