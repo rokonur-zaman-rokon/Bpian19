@@ -1,7 +1,5 @@
-/**
- * Signs up a new user.
- * Includes validation, custom redirect, and email confirmation handling.
- */
+import { supabase } from './config.js';
+
 async function signup(email, password) {
   if (!email || !password) {
     alert("Please provide both email and password.");
