@@ -36,11 +36,25 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/auth.js"></script>
 <script>
+    // Handles the Sign In button
     function handleLogin() {
-        login(document.getElementById('email').value, document.getElementById('password').value);
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+        login(email, pass);
     }
+
+    // UPDATED: This now triggers the actual signup process
     function toggleAuth() {
-        alert("Use the SignUp function in auth.js to create a new user, or contact Admin for access.");
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+
+        if (!email || !pass) {
+            alert("Please enter an email and password in the fields above to Sign Up.");
+            return;
+        }
+
+        // Calling the signup function from your auth.js
+        signup(email, pass);
     }
 </script>
 
