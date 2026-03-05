@@ -1,7 +1,6 @@
-// assets/js/config.js
+// Remove 'import' and 'export'—they don't work with standard CDN scripts
 const supabaseUrl = 'https://eenlpvlwyoxajlcikmzi.supabase.co';
 const supabaseAnonKey = 'sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE';
 
-// The CDN script creates a global 'supabase' object.
-// We use it to initialize the client and attach it to 'window' so other scripts can see it.
-window.supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+// Initialize and attach to the window object so auth.js can see it
+window.supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
