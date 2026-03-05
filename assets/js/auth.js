@@ -1,53 +1,40 @@
-/**
- * Signs up a new user for the Bpian '19 Portal.
- */
-async function signup(email, password) {
-  if (!window.supabaseClient) {
-    alert("Supabase is not initialized. Check your config.js and script order.");
-    return;
-  }
+async function signup() {
 
-  if (!email || !password) {
-    alert("Please provide both email and password.");
-    return;
-  }
+const email = document.getElementById("email").value
+const password = document.getElementById("password").value
 
-  try {
-    const { data, error } = await window.supabaseClient.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-        // Redirects back to login page after email confirmation
-        emailRedirectTo: window.location.origin + '/login.html',
-      }
-    });
+const { data, error } = await window.supabase.auth.signUp({
+  email: email,
+  password: password
+})
 
-    if (error) throw error;
-
-    if (data.user) {
-      alert("Registration successful! Please check your email inbox for a verification link.");
-    }
-  } catch (error) {
-    alert("Signup Error: " + error.message);
-    console.error("Signup failure:", error);
-  }
+if (error) {
+  alert("Signup Error: " + error.message)
+} else {
+  alert("Signup successful. Check your email.")
 }
 
-/**
- * Logs in an existing member.
- */
+}
 // auth.js
-async function login(email, password) {
-    const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password,
-    });
-    if (error) alert(error.message);
-    else window.location.href = "dashboard.html";
+async function login() {
+
+const email = document.getElementById("email").value
+const password = document.getElementById("password").value
+
+const { data, error } =
+await window.supabase.auth.signInWithPassword({
+  email: email,
+  password: password
+})
+
+if (error) {
+  alert("Login Error: " + error.message)
+} else {
+  window.location.href = "dashboard.html"
 }
-/**
- * Logs out the user and returns to the home page.
- */
+
+}
+
 async function logout() {
   try {
     const { error } = await window.supabaseClient.auth.signOut();
