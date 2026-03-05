@@ -32,37 +32,48 @@
     <p style="text-align: center; margin-top: 2rem;"><a href="index.html" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem;">&larr; Back to Home</a></p>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="assets/js/config.js"></script>
-<script type="module" src="assets/js/auth.js"></script>
+
 <script>
+    // 2. Initialize directly to ensure no 'undefined' errors
+    const SUPABASE_URL = 'https://eenlpvlwyoxajlcikmzi.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 3. Login Logic
     async function handleLogin() {
-        console.log("Login button clicked");
         const email = document.getElementById('email').value;
         const pass = document.getElementById('password').value;
         
-        if (!email || !pass) {
-            alert("Please enter both email and password.");
-            return;
-        }
-        
-        // Call the login function from auth.js
-        await login(email, pass);
+        if (!email || !pass) return alert("Enter email and password.");
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: pass
+        });
+
+        if (error) alert("Login Error: " + error.message);
+        else window.location.href = "dashboard.html";
     }
 
+    // 4. Signup Logic (Fixed toggleAuth)
     async function toggleAuth() {
-        console.log("Sign Up link clicked");
         const email = document.getElementById('email').value;
         const pass = document.getElementById('password').value;
 
-        // REMOVE the old alert() that was here!
         if (!email || !pass) {
-            alert("To Sign Up: Enter your email and a new password above, then click 'Sign Up' again.");
+            alert("To Register: Fill in the email/password fields first, then click Sign Up.");
             return;
         }
 
-        // Call the signup function from auth.js
-        await signup(email, pass);
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: pass
+        });
+
+        if (error) alert("Signup Error: " + error.message);
+        else alert("Success! Check your email (" + email + ") to verify your account.");
     }
 </script>
 
