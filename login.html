@@ -36,26 +36,33 @@
 <script type="module" src="assets/js/config.js"></script>
 <script type="module" src="assets/js/auth.js"></script>
 <script>
-    // Fixed Sign In
-    function handleLogin() {
+    async function handleLogin() {
+        console.log("Login button clicked");
         const email = document.getElementById('email').value;
         const pass = document.getElementById('password').value;
-        if (!email || !pass) return alert("Please fill in all fields.");
-        login(email, pass);
+        
+        if (!email || !pass) {
+            alert("Please enter both email and password.");
+            return;
+        }
+        
+        // Call the login function from auth.js
+        await login(email, pass);
     }
 
-    // Fixed Sign Up - REMOVED THE ALERT
-    function toggleAuth() {
+    async function toggleAuth() {
+        console.log("Sign Up link clicked");
         const email = document.getElementById('email').value;
         const pass = document.getElementById('password').value;
 
+        // REMOVE the old alert() that was here!
         if (!email || !pass) {
-            alert("Please enter your email and password first, then click Sign Up.");
+            alert("To Sign Up: Enter your email and a new password above, then click 'Sign Up' again.");
             return;
         }
 
-        // This now calls the actual function in auth.js
-        signup(email, pass);
+        // Call the signup function from auth.js
+        await signup(email, pass);
     }
 </script>
 

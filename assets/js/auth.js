@@ -36,28 +36,15 @@ async function signup(email, password) {
 /**
  * Logs in an existing member.
  */
+// auth.js
 async function login(email, password) {
-  if (!window.supabaseClient) {
-    alert("Supabase not found.");
-    return;
-  }
-
-  try {
     const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
+        email: email,
+        password: password,
     });
-
-    if (error) throw error;
-
-    // Success: Send user to the dashboard
-    window.location.href = "dashboard.html";
-  } catch (error) {
-    alert("Login Error: " + error.message);
-    console.error("Login failure:", error);
-  }
+    if (error) alert(error.message);
+    else window.location.href = "dashboard.html";
 }
-
 /**
  * Logs out the user and returns to the home page.
  */
