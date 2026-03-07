@@ -11,7 +11,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #0B3D2E, #051C14); /* Dark Islamic green night */
+  background: linear-gradient(to bottom, #0B3D2E, #051C14); 
   color: #fff;
   overflow-x: hidden;
   position: relative;
@@ -23,7 +23,7 @@ body {
   top: 10%;
   left: 80%;
   font-size: 80px;
-  color: #FFD700; /* Gold */
+  color: #FFD700;
   opacity: 0.9;
   animation: floatMoon 8s ease-in-out infinite alternate;
   pointer-events: none;
@@ -45,12 +45,7 @@ body {
   text-shadow: 0 0 8px #FFD700;
   animation: twinkle linear infinite;
 }
-
-@keyframes twinkle {
-  0%,100% {opacity: 0.1;}
-  50% {opacity: 1;}
-}
-
+@keyframes twinkle {0%,100% {opacity:0.1;} 50% {opacity:1;}}
 .star:nth-child(1){top:10%; left:5%; animation-duration:2s;}
 .star:nth-child(2){top:20%; left:25%; animation-duration:3s;}
 .star:nth-child(3){top:40%; left:40%; animation-duration:1.5s;}
@@ -62,15 +57,58 @@ body {
 .star:nth-child(9){top:15%; left:60%; animation-duration:2.3s;}
 .star:nth-child(10){top:45%; left:80%; animation-duration:3.7s;}
 
+/* ===== Floating Lanterns ===== */
+.lantern {
+  position: fixed;
+  font-size: 40px;
+  color: #FFD700;
+  opacity: 0.8;
+  animation: floatLantern linear infinite;
+  pointer-events: none;
+  text-shadow: 0 0 15px #FFD700, 0 0 25px #FFD700;
+}
+
+@keyframes floatLantern {
+  0% { transform: translateY(0) translateX(0);}
+  50% { transform: translateY(-50px) translateX(20px);}
+  100% { transform: translateY(0) translateX(0);}
+}
+
+/* Lantern positions */
+.lantern:nth-child(11){top:90%; left:10%; animation-duration:8s;}
+.lantern:nth-child(12){top:85%; left:30%; animation-duration:9s;}
+.lantern:nth-child(13){top:95%; left:50%; animation-duration:7s;}
+.lantern:nth-child(14){top:88%; left:70%; animation-duration:10s;}
+.lantern:nth-child(15){top:92%; left:85%; animation-duration:8.5s;}
+
+/* ===== Floating Particles ===== */
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #FFD700;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: particleMove linear infinite;
+  pointer-events: none;
+}
+@keyframes particleMove {
+  0% {transform: translateY(0) translateX(0); opacity:0.3;}
+  50% {transform: translateY(-100px) translateX(30px); opacity:1;}
+  100% {transform: translateY(0) translateX(0); opacity:0.3;}
+}
+
 /* ===== Container ===== */
 .container {
   max-width: 950px;
   margin: 50px auto;
-  background: rgba(11,61,46,0.85); /* Dark green semi-transparent */
+  background: rgba(11,61,46,0.9);
   padding: 40px;
   border-radius: 25px;
-  box-shadow: 0 10px 50px rgba(255,215,0,0.3);
+  box-shadow: 0 10px 50px rgba(255,215,0,0.4);
   border: 2px solid #FFD700;
+  z-index: 1;
+  position: relative;
 }
 
 /* ===== Headings ===== */
@@ -135,10 +173,10 @@ h1, h2 {
 form {
   display: none;
   margin-top: 20px;
-  background: rgba(0,61,46,0.9);
+  background: rgba(0,61,46,0.95);
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 5px 25px rgba(255,215,0,0.2);
+  box-shadow: 0 5px 25px rgba(255,215,0,0.3);
 }
 form input, form select, form button {
   width: 100%;
@@ -220,6 +258,20 @@ form button:hover { transform: scale(1.03); }
 <div class="star">⭐</div>
 <div class="star">⭐</div>
 <div class="star">⭐</div>
+
+<!-- Floating Lanterns -->
+<div class="lantern">🏮</div>
+<div class="lantern">🏮</div>
+<div class="lantern">🏮</div>
+<div class="lantern">🏮</div>
+<div class="lantern">🏮</div>
+
+<!-- Floating particles -->
+<div class="particle" style="top:90%; left:15%; animation-duration:6s;"></div>
+<div class="particle" style="top:95%; left:45%; animation-duration:5s;"></div>
+<div class="particle" style="top:85%; left:70%; animation-duration:7s;"></div>
+<div class="particle" style="top:92%; left:30%; animation-duration:6.5s;"></div>
+<div class="particle" style="top:88%; left:55%; animation-duration:5.5s;"></div>
 
 <div class="container">
 <h1>Iftar 26 Mahfil</h1>
