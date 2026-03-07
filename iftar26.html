@@ -1,204 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iftar 26 Mahfil Registration</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
-  <style>
-    /* ===== Body & Background ===== */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fdf6e3 url('assets/img/ramadan-bg.jpg') no-repeat center top;
-      background-size: cover;
-      color: #333;
-      position: relative;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iftar 26 Mahfil Registration</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
+<style>
+  /* ===== Body & Background ===== */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(#0B3D91, #051937); /* Deep night blue */
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    /* Floating crescent & stars */
-    .crescent {
-      position: fixed;
-      top: 10%;
-      left: 80%;
-      font-size: 60px;
-      color: gold;
-      opacity: 0.7;
-      animation: float 6s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
+  /* ===== Floating Crescent & Stars ===== */
+  .crescent {
+    position: fixed;
+    top: 10%;
+    left: 80%;
+    font-size: 70px;
+    color: #FFD700; /* Gold */
+    opacity: 0.85;
+    animation: floatMoon 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    text-shadow: 0 0 15px #FFD700;
+  }
 
-    .star {
-      position: fixed;
-      font-size: 12px;
-      color: white;
-      opacity: 0.8;
-      animation: twinkle 3s infinite alternate;
-      pointer-events: none;
-    }
+  @keyframes floatMoon {
+    0% { transform: translateY(0) rotate(0deg);}
+    50% { transform: translateY(-15px) rotate(15deg);}
+    100% { transform: translateY(0) rotate(0deg);}
+  }
 
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg);}
-      100% { transform: translateY(-20px) rotate(20deg);}
-    }
-    @keyframes twinkle {
-      0% { opacity: 0.2; }
-      100% { opacity: 1; }
-    }
+  .star {
+    position: fixed;
+    font-size: 10px;
+    color: #FFD700;
+    opacity: 0.7;
+    pointer-events: none;
+    text-shadow: 0 0 10px #FFD700;
+    animation: twinkle linear infinite;
+  }
 
-    .container {
-      max-width: 950px;
-      margin: 50px auto;
-      background: rgba(255,255,255,0.95);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-      border: 2px solid #ffd580;
-    }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 1; }
+  }
 
-    h1, h2 {
-      text-align: center;
-      color: #6b2d0c;
-      font-family: 'Georgia', serif;
-      margin-bottom: 20px;
-    }
+  /* Generate multiple stars dynamically */
+  .star:nth-child(1){top:10%; left:5%; animation-duration:2s;}
+  .star:nth-child(2){top:20%; left:25%; animation-duration:3s;}
+  .star:nth-child(3){top:40%; left:40%; animation-duration:1.5s;}
+  .star:nth-child(4){top:60%; left:15%; animation-duration:4s;}
+  .star:nth-child(5){top:80%; left:50%; animation-duration:2.5s;}
+  .star:nth-child(6){top:35%; left:70%; animation-duration:3.5s;}
+  .star:nth-child(7){top:55%; left:85%; animation-duration:1.8s;}
+  .star:nth-child(8){top:75%; left:30%; animation-duration:4.2s;}
+  .star:nth-child(9){top:15%; left:60%; animation-duration:2.3s;}
+  .star:nth-child(10){top:45%; left:80%; animation-duration:3.7s;}
 
-    /* Event Details */
-    .event-details {
-      background: #fff8e1;
-      padding: 25px;
-      border-left: 8px solid #ff9800;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-    }
-    .event-details p { margin: 10px 0; line-height: 1.6; }
+  /* ===== Container ===== */
+  .container {
+    max-width: 950px;
+    margin: 50px auto;
+    background: rgba(0,0,0,0.75);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(255,215,0,0.2);
+    border: 2px solid #FFD700;
+  }
 
-    /* Payment Info */
-    .payment-info {
-      background: #e8f5e9;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-    }
-    .payment-info h2 { margin-bottom: 15px; }
-    .payment-info p { margin: 6px 0; font-weight: 600; line-height:1.5; }
-    .payment-note {
-      color: red;
-      font-weight: bold;
-      text-align: center;
-      margin-top: 10px;
-    }
+  h1, h2 {
+    text-align: center;
+    color: #FFD700;
+    font-family: 'Georgia', serif;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #FFD700;
+  }
 
-    /* Register Button */
-    #registerBtn {
-      display: block;
-      margin: 25px auto;
-      padding: 16px 30px;
-      background: linear-gradient(45deg, #f6d365, #fda085);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 20px;
-      font-weight: bold;
-      transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    #registerBtn:hover {
-      transform: scale(1.05);
-    }
+  /* Event Details */
+  .event-details {
+    background: rgba(0,128,0,0.3); /* Islamic green semi-transparent */
+    padding: 25px;
+    border-left: 8px solid #FFD700;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 15px rgba(255,215,0,0.2);
+  }
+  .event-details p { margin: 10px 0; line-height: 1.6; }
 
-    /* Form Styles */
-    form {
-      display: none;
-      margin-top: 20px;
-      background: #fffde7;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-    form input, form select, form button {
-      width: 100%;
-      padding: 14px;
-      margin: 12px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    form button {
-      background: linear-gradient(45deg, #f6d365, #fda085);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: bold;
-      font-size: 18px;
-    }
-    form button:hover { transform: scale(1.03); }
+  /* Payment Info */
+  .payment-info {
+    background: rgba(255,215,0,0.1);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 15px rgba(255,215,0,0.2);
+  }
+  .payment-info h2 { margin-bottom: 15px; }
+  .payment-info p { margin: 6px 0; font-weight: 600; line-height:1.5; }
+  .payment-note {
+    color: #FF6347;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
 
-    /* Success & Error */
-    .success-msg, .error-msg {
-      display: none;
-      text-align: center;
-      font-weight: bold;
-      margin-top: 15px;
-      font-size: 16px;
-    }
-    .success-msg { color: green; }
-    .error-msg { color: red; }
+  /* Register Button */
+  #registerBtn {
+    display: block;
+    margin: 25px auto;
+    padding: 16px 30px;
+    background: linear-gradient(45deg, #FFD700, #32CD32);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+  }
+  #registerBtn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #FFB347, #32CD32);
+  }
 
-    /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin: 30px 0;
-    }
-    .gallery img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      object-fit: cover;
-      transition: 0.3s;
-    }
-    .gallery img:hover { transform: scale(1.05); }
+  /* Form Styles */
+  form {
+    display: none;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.6);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.2);
+  }
+  form input, form select, form button {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  form button {
+    background: linear-gradient(45deg, #FFD700, #32CD32);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  form button:hover { transform: scale(1.03); }
 
-    /* Contact */
-    .contact {
-      background: #fff3e0;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 30px;
-      text-align: center;
-    }
-    .contact p { margin: 6px 0; font-weight: bold; font-size: 16px; }
+  /* Success & Error */
+  .success-msg, .error-msg {
+    display: none;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 16px;
+  }
+  .success-msg { color: #32CD32; }
+  .error-msg { color: #FF6347; }
 
-    /* Responsive */
-    @media(max-width: 768px){
-      .container { padding: 20px; }
-      h1 { font-size: 28px; }
-      h2 { font-size: 22px; }
-    }
-  </style>
+  /* Gallery */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 30px 0;
+  }
+  .gallery img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+    object-fit: cover;
+    transition: 0.3s;
+  }
+  .gallery img:hover { transform: scale(1.05); }
+
+  /* Contact */
+  .contact {
+    background: rgba(0,128,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+    text-align: center;
+  }
+  .contact p { margin: 6px 0; font-weight: bold; font-size: 16px; }
+
+  /* Responsive */
+  @media(max-width: 768px){
+    .container { padding: 20px; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 22px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- Floating crescent & stars -->
+  <!-- Floating Crescent & Stars -->
   <div class="crescent">🌙</div>
-  <div class="star" style="top:10%;left:10%;">⭐</div>
-  <div class="star" style="top:20%;left:50%;">⭐</div>
-  <div class="star" style="top:50%;left:30%;">⭐</div>
-  <div class="star" style="top:70%;left:70%;">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
+  <div class="star">⭐</div>
 
   <div class="container">
     <h1>Iftar 26 Mahfil</h1>
 
-    <!-- Event Details -->
     <div class="event-details">
       <p><strong>Date:</strong> 28 Ramadan, 18 March 2026</p>
       <p><strong>Time:</strong> 4:00 PM</p>
@@ -206,7 +228,6 @@
       <p><strong>Description:</strong> Join us for the Iftar 26 Mahfil, a special gathering to share the blessings of Ramadan. Enjoy a warm, joyful evening with delicious Iftar, heartfelt conversations, and spiritual camaraderie. Celebrate unity, faith, and togetherness with the community.</p>
     </div>
 
-    <!-- Payment Info -->
     <div class="payment-info">
       <h2>Payment Information</h2>
       <p><strong>Fee:</strong> 200 BDT</p>
@@ -219,10 +240,8 @@
       <p class="payment-note">Please pay first, then fill the registration form.</p>
     </div>
 
-    <!-- Register Button -->
     <button id="registerBtn">Register Now</button>
 
-    <!-- Registration Form -->
     <form id="iftar26Form">
       <input type="text" id="iftar26-name" placeholder="Your Name" required>
       <input type="email" id="iftar26-email" placeholder="Your Email" required>
@@ -240,7 +259,6 @@
       <p class="error-msg" id="iftar26-errorMsg">Oops! Something went wrong. Please try again.</p>
     </form>
 
-    <!-- Past Iftar Memories -->
     <h2>Past Iftar Memories</h2>
     <div class="gallery">
       <img src="assets/img/2022.webp" alt="Iftar 2022">
@@ -249,7 +267,6 @@
       <img src="assets/img/2025.webp" alt="Iftar 2025">
     </div>
 
-    <!-- Contact -->
     <div class="contact">
       <h2>Contact</h2>
       <p>Rokon: 01995494987</p>
@@ -257,45 +274,42 @@
     </div>
   </div>
 
-  <script src="assets/js/config.js"></script>
-  <script>
-    const registerBtn = document.getElementById('registerBtn');
-    const form = document.getElementById('iftar26Form');
-    const successMsg = document.getElementById('iftar26-successMsg');
-    const errorMsg = document.getElementById('iftar26-errorMsg');
+<script src="assets/js/config.js"></script>
+<script>
+  const registerBtn = document.getElementById('registerBtn');
+  const form = document.getElementById('iftar26Form');
+  const successMsg = document.getElementById('iftar26-successMsg');
+  const errorMsg = document.getElementById('iftar26-errorMsg');
 
-    // Show form on button click
-    registerBtn.addEventListener('click', () => {
-      form.style.display = 'block';
-      registerBtn.style.display = 'none';
-      form.scrollIntoView({ behavior: 'smooth' });
-    });
+  registerBtn.addEventListener('click', () => {
+    form.style.display = 'block';
+    registerBtn.style.display = 'none';
+    form.scrollIntoView({ behavior: 'smooth' });
+  });
 
-    // Form submit
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('iftar26-name').value;
-      const email = document.getElementById('iftar26-email').value;
-      const phone = document.getElementById('iftar26-phone').value;
-      const paymentMethod = document.getElementById('iftar26-paymentMethod').value;
-      const transId = document.getElementById('iftar26-transId').value;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('iftar26-name').value;
+    const email = document.getElementById('iftar26-email').value;
+    const phone = document.getElementById('iftar26-phone').value;
+    const paymentMethod = document.getElementById('iftar26-paymentMethod').value;
+    const transId = document.getElementById('iftar26-transId').value;
 
-      try {
-        const { data, error } = await supabase
-          .from('iftar26_registrations')
-          .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
+    try {
+      const { data, error } = await supabase
+        .from('iftar26_registrations')
+        .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
+      if (error) throw error;
 
-        if (error) throw error;
-
-        successMsg.style.display = 'block';
-        errorMsg.style.display = 'none';
-        form.reset();
-      } catch (err) {
-        console.error("Supabase Error:", err);
-        successMsg.style.display = 'none';
-        errorMsg.style.display = 'block';
-      }
-    });
-  </script>
+      successMsg.style.display = 'block';
+      errorMsg.style.display = 'none';
+      form.reset();
+    } catch (err) {
+      console.error("Supabase Error:", err);
+      successMsg.style.display = 'none';
+      errorMsg.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
