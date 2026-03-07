@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iftar 26 Registration</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
+  <style>
+    /* Container styling */
+    .iftar26-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 40px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    /* Heading styling */
+    .iftar26-container h1,
+    .iftar26-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Event details section */
+    .iftar26-details {
+      background: #fff8e1;
+      padding: 20px;
+      border-left: 6px solid #ff9800;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .iftar26-details p {
+      margin: 8px 0;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* Form styling */
+    form input,
+    form select,
+    form button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    form button {
+      background: #ff9800;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    form button:hover {
+      background: #e68900;
+    }
+
+    /* Messages */
+    .success-msg,
+    .error-msg {
+      display: none;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .success-msg { color: green; }
+    .error-msg { color: red; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .iftar26-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="iftar26-container">
+    <h1>Iftar 26 Mahfil</h1>
+
+    <div class="iftar26-details">
+      <p><strong>Date:</strong> 28 Ramadan, 18 March 2026</p>
+      <p><strong>Time:</strong> 4:00 PM</p>
+      <p><strong>Venue:</strong> Panchagarh BP Government High School</p>
+      <p><strong>Description:</strong> Join us for the Iftar 26 Mahfil, a special gathering of our community to share the blessings of Ramadan. Enjoy a warm, joyful evening with delicious Iftar, heartfelt conversations, and spiritual camaraderie. Let's come together to celebrate unity, faith, and togetherness in the holy month of Ramadan.</p>
+    </div>
+
+    <h2>Register Now</h2>
+    <form id="iftar26Form">
+      <input type="text" id="iftar26-name" placeholder="Your Name" required>
+      <input type="email" id="iftar26-email" placeholder="Your Email" required>
+      <input type="tel" id="iftar26-phone" placeholder="Phone Number" required>
+      <select id="iftar26-paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="Bkash">Bkash</option>
+        <option value="Nagad">Nagad</option>
+        <option value="Rocket">Rocket</option>
+        <option value="Cash">Cash</option>
+      </select>
+      <input type="text" id="iftar26-transId" placeholder="Transaction ID (if paid)">
+      <button type="submit">Register</button>
+      <p class="success-msg" id="iftar26-successMsg">Thank you for registering! See you at the Iftar Mahfil.</p>
+      <p class="error-msg" id="iftar26-errorMsg">Oops! Something went wrong. Please try again.</p>
+    </form>
+  </div>
+
+  <!-- Supabase script -->
+  <script src="assets/js/config.js"></script>
+  <script>
+    // Use Supabase client from config.js
+    const form = document.getElementById('iftar26Form');
+    const successMsg = document.getElementById('iftar26-successMsg');
+    const errorMsg = document.getElementById('iftar26-errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('iftar26-name').value;
+      const email = document.getElementById('iftar26-email').value;
+      const phone = document.getElementById('iftar26-phone').value;
+      const paymentMethod = document.getElementById('iftar26-paymentMethod').value;
+      const transId = document.getElementById('iftar26-transId').value;
+
+      try {
+        const { data, error } = await supabase
+          .from('bpian19_registrations')  // Use the same table or create iftar26_registrations
+          .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
+
+        if (error) throw error;
+
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
