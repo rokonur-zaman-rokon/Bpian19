@@ -3,47 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iftar 26 Registration</title>
+  <title>Iftar 26 Mahfil Registration</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
   <style>
-    /* Container styling */
-    .iftar26-container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 40px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      font-family: Arial, sans-serif;
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f9f6f2 url('assets/img/ramadan-bg.jpg') no-repeat center top;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #333;
     }
 
-    /* Heading styling */
-    .iftar26-container h1,
-    .iftar26-container h2 {
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    }
+
+    h1, h2 {
       text-align: center;
-      color: #333;
+      color: #6b2d0c;
       margin-bottom: 20px;
     }
 
-    /* Event details section */
-    .iftar26-details {
-      background: #fff8e1;
+    .event-details {
+      background: #fff3e0;
       padding: 20px;
       border-left: 6px solid #ff9800;
-      margin-bottom: 30px;
       border-radius: 8px;
+      margin-bottom: 30px;
     }
 
-    .iftar26-details p {
+    .event-details p {
       margin: 8px 0;
-      color: #555;
       line-height: 1.5;
     }
 
-    /* Form styling */
-    form input,
-    form select,
-    form button {
+    .payment-info {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .payment-info p {
+      margin: 6px 0;
+    }
+
+    #registerBtn {
+      display: block;
+      margin: 20px auto;
+      padding: 15px 25px;
+      background: #6b2d0c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    #registerBtn:hover {
+      background: #ff9800;
+    }
+
+    form {
+      display: none;
+      margin-top: 20px;
+    }
+
+    form input, form select, form button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -54,7 +87,7 @@
     }
 
     form button {
-      background: #ff9800;
+      background: #6b2d0c;
       color: #fff;
       border: none;
       cursor: pointer;
@@ -63,42 +96,78 @@
     }
 
     form button:hover {
-      background: #e68900;
+      background: #ff9800;
     }
 
-    /* Messages */
-    .success-msg,
-    .error-msg {
+    .success-msg, .error-msg {
       display: none;
       text-align: center;
-      margin-top: 15px;
       font-weight: bold;
+      margin-top: 15px;
     }
 
     .success-msg { color: green; }
     .error-msg { color: red; }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .iftar26-container {
-        padding: 30px 20px;
-      }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      object-fit: cover;
+    }
+
+    .contact {
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .contact p {
+      margin: 6px 0;
+      font-weight: bold;
+    }
+
+    @media(max-width: 768px){
+      .container { padding: 20px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="iftar26-container">
+  <div class="container">
     <h1>Iftar 26 Mahfil</h1>
 
-    <div class="iftar26-details">
+    <div class="event-details">
       <p><strong>Date:</strong> 28 Ramadan, 18 March 2026</p>
       <p><strong>Time:</strong> 4:00 PM</p>
       <p><strong>Venue:</strong> Panchagarh BP Government High School</p>
-      <p><strong>Description:</strong> Join us for the Iftar 26 Mahfil, a special gathering of our community to share the blessings of Ramadan. Enjoy a warm, joyful evening with delicious Iftar, heartfelt conversations, and spiritual camaraderie. Let's come together to celebrate unity, faith, and togetherness in the holy month of Ramadan.</p>
+      <p><strong>Description:</strong> Join us for the Iftar 26 Mahfil, a special gathering to share the blessings of Ramadan. Enjoy a warm, joyful evening with delicious Iftar, heartfelt conversations, and spiritual camaraderie. Celebrate unity, faith, and togetherness with the community.</p>
     </div>
 
-    <h2>Register Now</h2>
+    <div class="payment-info">
+      <h2>Payment Information</h2>
+      <p><strong>Fee:</strong> 200 BDT</p>
+      <p><strong>Mobile Payment:</strong> Bkash / Nagad / Rocket – 01995494987</p>
+      <p><strong>Bank Account:</strong></p>
+      <p>Account Number: 1061141920001</p>
+      <p>Account Name: ROKONUR ZAMAN ROKON</p>
+      <p>Bank Name: BRAC Bank PLC</p>
+      <p>Branch: PANCHAGAR SME/KRISHI BR</p>
+      <p style="color: red;"><strong>Please pay first, then fill the registration form.</strong></p>
+    </div>
+
+    <!-- Button to show form -->
+    <button id="registerBtn">Register Now</button>
+
+    <!-- Registration Form -->
     <form id="iftar26Form">
       <input type="text" id="iftar26-name" placeholder="Your Name" required>
       <input type="email" id="iftar26-email" placeholder="Your Email" required>
@@ -110,21 +179,44 @@
         <option value="Rocket">Rocket</option>
         <option value="Cash">Cash</option>
       </select>
-      <input type="text" id="iftar26-transId" placeholder="Transaction ID (if paid)">
-      <button type="submit">Register</button>
+      <input type="text" id="iftar26-transId" placeholder="Transaction ID (Required)" required>
+      <button type="submit">Submit Registration</button>
       <p class="success-msg" id="iftar26-successMsg">Thank you for registering! See you at the Iftar Mahfil.</p>
       <p class="error-msg" id="iftar26-errorMsg">Oops! Something went wrong. Please try again.</p>
     </form>
+
+    <h2>Past Iftar Memories</h2>
+    <div class="gallery">
+      <img src="assets/img/2022.webp" alt="Iftar 2022">
+      <img src="assets/img/2023.webp" alt="Iftar 2023">
+      <img src="assets/img/2024.webp" alt="Iftar 2024">
+      <img src="assets/img/2025.webp" alt="Iftar 2025">
+    </div>
+
+    <div class="contact">
+      <h2>Contact</h2>
+      <p>Rokon: 01995494987</p>
+      <p>Apon: 01707474881</p>
+    </div>
+
   </div>
 
-  <!-- Supabase script -->
   <script src="assets/js/config.js"></script>
   <script>
-    // Use Supabase client from config.js
+    // Show form only after clicking button
+    const registerBtn = document.getElementById('registerBtn');
     const form = document.getElementById('iftar26Form');
+
+    registerBtn.addEventListener('click', () => {
+      form.style.display = 'block';
+      registerBtn.style.display = 'none';
+      form.scrollIntoView({ behavior: 'smooth' });
+    });
+
     const successMsg = document.getElementById('iftar26-successMsg');
     const errorMsg = document.getElementById('iftar26-errorMsg');
 
+    // Form submit handler
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -136,7 +228,7 @@
 
       try {
         const { data, error } = await supabase
-          .from('bpian19_registrations')  // Use the same table or create iftar26_registrations
+          .from('iftar26_registrations')
           .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
 
         if (error) throw error;
@@ -145,12 +237,11 @@
         errorMsg.style.display = 'none';
         form.reset();
       } catch (err) {
-        console.error(err);
+        console.error("Supabase Error:", err);
         successMsg.style.display = 'none';
         errorMsg.style.display = 'block';
       }
     });
   </script>
-
 </body>
 </html>
