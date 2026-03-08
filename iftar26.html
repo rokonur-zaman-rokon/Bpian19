@@ -287,7 +287,17 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+// GLOBAL function so HTML can access it
+function nextStep(step){
+  document.querySelectorAll('.step-container').forEach(el=>{
+    el.classList.remove('step-active');
+  });
+  document.getElementById('step'+step).classList.add('step-active');
+}
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -295,11 +305,6 @@ const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
 const SUPABASE_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function nextStep(step){
-  document.querySelectorAll('.step-container').forEach(el=>el.classList.remove('step-active'));
-  document.getElementById('step'+step).classList.add('step-active');
-}
 
 const form = document.getElementById('premiumForm');
 const totalCountEl = document.getElementById('totalCount');
