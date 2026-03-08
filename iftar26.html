@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> BPian 19 Iftar Mahfil Registration</title>
+<title>Iftar 26 Mahfil | Premium Registration</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
 <style>
@@ -23,7 +23,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Premium Glass Container */
 .main-card {
     max-width: 800px;
     margin: 60px auto;
@@ -131,12 +130,19 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
 .live-counter ul { list-style:none; padding-left:0; color:#eee; }
 .live-counter li { margin:4px 0; }
 
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:15px; margin-top:30px; }
+.gallery img { width:100%; border-radius: 15px; box-shadow:0 5px 25px rgba(212,175,55,0.3); transition:0.3s; }
+.gallery img:hover { transform: scale(1.05); }
+
+.bank-details { background: rgba(255,255,255,0.03); padding:20px; border-radius:15px; margin-bottom:30px; border-left:3px solid var(--primary-gold); }
+.bank-details h3 { color: var(--primary-gold); margin-top:0; text-transform: uppercase; font-size: 0.95rem; }
+.bank-details p { margin:6px 0; font-weight: 500; }
 </style>
 </head>
 <body>
 
 <div class="main-card">
-    <h1>IFTAR 26 MAHFIL</h1>
+    <h1>BPIAN 19 IFTAR MAHFIL</h1>
     <p class="subtitle">28 Ramadan 1447 • Panchagarh BP Government High School</p>
 
     <div id="step1" class="step-container step-active">
@@ -157,6 +163,14 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
             <p style="font-size: 0.8rem; opacity: 0.8;">Please complete payment before proceeding.</p>
         </div>
 
+        <div class="bank-details">
+            <h3>Bank Details</h3>
+            <p><strong>Bank Name:</strong> BRAC Bank PLC</p>
+            <p><strong>Account Name:</strong> ROKONUR ZAMAN ROKON</p>
+            <p><strong>Account Number:</strong> 1061141920001</p>
+            <p><strong>Branch:</strong> PANCHAGAR SME/KRISHI BR</p>
+        </div>
+
         <button class="btn-premium" onclick="nextStep(2)">Proceed to Register</button>
     </div>
 
@@ -174,12 +188,12 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
             </div>
             <input type="text" id="transId" placeholder="Transaction ID" required>
             <button type="submit" id="submitBtn" class="btn-premium">Confirm Registration</button>
-            <button type="button" onclick="nextStep(1)" style="background: none; border: none; color: #888; width: 100%; margin-top: 15px; cursor: pointer;">← Go Back</button>
+            <button type="button" onclick="nextStep(1)" style="background:none; border:none; color:#888; width:100%; margin-top:15px; cursor:pointer;">← Go Back</button>
         </form>
     </div>
 
-    <div id="step3" class="step-container" style="text-align: center;">
-        <div style="font-size: 50px; color: var(--primary-gold); margin-bottom: 20px;">🌙</div>
+    <div id="step3" class="step-container" style="text-align:center;">
+        <div style="font-size:50px; color: var(--primary-gold); margin-bottom:20px;">🌙</div>
         <h2 style="color: var(--primary-gold);">Mubarak!</h2>
         <p>Your registration has been received.<br>We look forward to seeing you in the gathering of blessings.</p>
         <button class="btn-premium" onclick="location.reload()">Return Home</button>
@@ -191,13 +205,21 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
         <ul id="lastFive"></ul>
     </div>
 
+    <h3 style="margin-top:40px; color: var(--primary-gold)">Past Iftar Memories</h3>
+    <div class="gallery">
+        <img src="assets/img/2022.webp" alt="Iftar 2022">
+        <img src="assets/img/2023.webp" alt="Iftar 2023">
+        <img src="assets/img/2024.webp" alt="Iftar 2024">
+        <img src="assets/img/2025.webp" alt="Iftar 2025">
+    </div>
+
     <div id="statusMsg"></div>
 </div>
 
 <script>
-    // Supabase config (replace with your keys)
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    // Supabase config
+    const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     function nextStep(step) {
@@ -258,6 +280,5 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
     loadCounter();
     setInterval(loadCounter, 10000);
 </script>
-
 </body>
 </html>
