@@ -153,3 +153,41 @@ nav {
   margin-top: 30px;
 }
 .image-wrapper img { width: 100%; height: auto; display: block; }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+.gallery-item {
+    position: relative;
+    width: 100%;
+    padding-top: 140%; /* 5:7 ratio */
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(212,175,55,0.3);
+    transition: transform 0.3s;
+}
+.gallery-item img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+.gallery-item:hover img { transform: scale(1.05); }
+.caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(212,175,55,0.5);
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+    font-size: 0.95rem;
+    color: #01120b;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

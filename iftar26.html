@@ -159,7 +159,7 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
 
         <div class="payment-highlight">
             <h3 style="color: var(--primary-gold); margin-bottom: 10px;">Registration Fee: 200 BDT</h3>
-            <p>Send Money to: <strong>01995494987</strong> (Bkash/Nagad)</p>
+            <p>Send Money to: <strong>01995494987</strong> (Bkash/Nagad/Rocket)</p>
             <p style="font-size: 0.8rem; opacity: 0.8;">Please complete payment before proceeding.</p>
         </div>
 
@@ -199,23 +199,30 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
         <button class="btn-premium" onclick="location.reload()">Return Home</button>
     </div>
 
-    <div class="live-counter">
-        <h3>Total Registered: <span id="totalCount">0</span></h3>
-        <h3>Last 5 Registrants:</h3>
-        <ul id="lastFive"></ul>
-    </div>
-
-    <h3 style="margin-top:40px; color: var(--primary-gold)">Past Iftar Memories</h3>
-    <div class="gallery">
-        <img src="assets/img/2022.webp" alt="Iftar 2022">
-        <img src="assets/img/2023.webp" alt="Iftar 2023">
-        <img src="assets/img/2024.webp" alt="Iftar 2024">
-        <img src="assets/img/2025.webp" alt="Iftar 2025">
-    </div>
-
-    <div id="statusMsg"></div>
+ <!-- Live Counter Section -->
+<div class="live-counter">
+    <h3>Total Registered: <span id="totalCount">0</span></h3>
+    <h3>Last 5 Registrants:</h3>
+    <ul id="lastFive"></ul>
 </div>
 
+<!-- Past Memories Gallery at the Bottom -->
+<h3 style="margin-top:40px; color: var(--primary-gold)">Past Iftar Memories</h3>
+<div class="gallery">
+    <div class="gallery-item"><img src="assets/img/2022.webp" alt="Iftar 2022"><div class="caption">2022</div></div>
+    <div class="gallery-item"><img src="assets/img/2023.webp" alt="Iftar 2023"><div class="caption">2023</div></div>
+    <div class="gallery-item"><img src="assets/img/2024.webp" alt="Iftar 2024"><div class="caption">2024</div></div>
+    <div class="gallery-item"><img src="assets/img/2025.webp" alt="Iftar 2025"><div class="caption">2025</div></div>
+</div>
+<!-- Contact Section -->
+<div class="contact-section" style="margin-top:40px; text-align:center;">
+    <h3 style="color: var(--primary-gold); margin-bottom:15px;">Contact</h3>
+    <p style="margin:4px 0;">Rokon: <strong>01995494987</strong></p>
+    <p style="margin:4px 0;">Apon: <strong>01707474881</strong></p>
+</div>
+<footer>
+    <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
+</footer>
 <script>
     // Supabase config
     const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
