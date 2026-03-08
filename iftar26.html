@@ -286,78 +286,85 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
 <script>
-  // Correct Supabase client initialization
-  const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
-  
-  // Use the global 'supabase' from the CDN
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Step navigation
-  function nextStep(step){
-    document.querySelectorAll('.step-container').forEach(el=>el.classList.remove('step-active'));
-    document.getElementById('step'+step).classList.add('step-active');
+const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function nextStep(step){
+  document.querySelectorAll('.step-container').forEach(el=>el.classList.remove('step-active'));
+  document.getElementById('step'+step).classList.add('step-active');
+}
+
+const form = document.getElementById('premiumForm');
+const totalCountEl = document.getElementById('totalCount');
+const lastFiveEl = document.getElementById('lastFive');
+
+form.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Processing...";
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const method = document.getElementById("method").value;
+  const transId = document.getElementById("transId").value;
+
+  const { error } = await client
+  .from("iftar26_registrations")
+  .insert([
+    {
+      name:name,
+      phone:phone,
+      payment_method:method,
+      transaction_id:transId
+    }
+  ]);
+
+  if(error){
+    alert("Database Error: " + error.message);
+    console.log(error);
+  }else{
+    nextStep(3);
+    loadStats();
+    form.reset();
   }
 
-  // Form submission
-  const form = document.getElementById('premiumForm');
-  const statusMsg = document.getElementById('statusMsg');
-  const totalCountEl = document.getElementById('totalCount');
-  const lastFiveEl = document.getElementById('lastFive');
+  submitBtn.disabled = false;
+  submitBtn.innerText = "Confirm Registration";
 
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    statusMsg.innerText = "";
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Processing...";
+});
 
-    const payload = {
-      name: document.getElementById('name').value,
-      phone: document.getElementById('phone').value,
-      payment_method: document.getElementById('method').value,
-      transaction_id: document.getElementById('transId').value,
-      created_at: new Date().toISOString()
-    };
 
-    try{
-      const { data, error } = await supabaseClient
-        .from('iftar26_registrations')
-        .insert([payload]);
-      if(error) throw error;
-      nextStep(3);
-      loadStats();
-      form.reset();
-    }catch(err){
-      console.error(err);
-      statusMsg.classList.add('error');
-      statusMsg.innerText = "Error saving data!";
-    }finally{
-      submitBtn.disabled = false;
-      submitBtn.innerText = "Confirm Registration";
-    }
-  });
+async function loadStats(){
 
-  async function loadStats(){
-    const { data: lastFive, count } = await supabaseClient
-      .from('iftar26_registrations')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending:false })
-      .limit(5);
+  const { data, count } = await client
+  .from("iftar26_registrations")
+  .select("*",{count:"exact"})
+  .order("created_at",{ascending:false})
+  .limit(5);
 
-    totalCountEl.innerText = count || 0;
-    lastFiveEl.innerHTML = '';
-    if(lastFive){
-      lastFive.forEach(r=>{
-        const li = document.createElement('li');
-        li.innerText = `${r.name} (${r.payment_method})`;
-        lastFiveEl.appendChild(li);
-      });
-    }
+  totalCountEl.innerText = count || 0;
+
+  lastFiveEl.innerHTML="";
+
+  if(data){
+    data.forEach(r=>{
+      const li=document.createElement("li");
+      li.innerText = r.name + " (" + r.payment_method + ")";
+      lastFiveEl.appendChild(li);
+    });
   }
 
-  loadStats();
-  setInterval(loadStats, 10000);
+}
+
+loadStats();
+setInterval(loadStats,10000);
+
 </script>
 </body>
 </html>
