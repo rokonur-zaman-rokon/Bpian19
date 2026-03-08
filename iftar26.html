@@ -285,79 +285,73 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
 <footer>
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="assets/js/config.js"></script>
 <script>
+  // Supabase client
+  const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
+  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const registerBtn=document.getElementById("registerBtn");
-const form=document.getElementById("iftar26Form");
+  // Step navigation
+  function nextStep(step){
+    document.querySelectorAll('.step-container').forEach(el=>el.classList.remove('step-active'));
+    document.getElementById('step'+step).classList.add('step-active');
+  }
 
-registerBtn.onclick=()=>{
-form.style.display="block";
-registerBtn.style.display="none";
-}
+  // Form submission
+  const form = document.getElementById('premiumForm');
+  const statusMsg = document.getElementById('statusMsg');
+  const totalCountEl = document.getElementById('totalCount');
+  const lastFiveEl = document.getElementById('lastFive');
 
-const successMsg=document.getElementById("successMsg");
-const errorMsg=document.getElementById("errorMsg");
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    statusMsg.innerText = "";
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Processing...";
 
-form.addEventListener("submit",async(e)=>{
+    const payload = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      payment_method: document.getElementById('method').value,
+      transaction_id: document.getElementById('transId').value,
+      created_at: new Date()
+    };
 
-e.preventDefault();
+    try{
+      const { error } = await supabase.from('iftar26_registrations').insert([payload]);
+      if(error) throw error;
+      nextStep(3);
+      loadStats();
+      form.reset();
+    }catch(err){
+      console.error(err);
+      statusMsg.style.color = "red";
+      statusMsg.innerText = "Error saving data!";
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Confirm Registration";
+    }
+  });
 
-const name=document.getElementById("name").value;
-const email=document.getElementById("email").value;
-const phone=document.getElementById("phone").value;
-const paymentMethod=document.getElementById("paymentMethod").value;
-const transId=document.getElementById("transId").value;
+  async function loadStats(){
+    const { data: lastFive, count } = await supabase.from('iftar26_registrations')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending:false })
+      .limit(5);
+    totalCountEl.innerText = count || 0;
+    lastFiveEl.innerHTML = '';
+    if(lastFive){
+      lastFive.forEach(r=>{
+        const li = document.createElement('li');
+        li.innerText = `${r.name} (${r.payment_method})`;
+        lastFiveEl.appendChild(li);
+      });
+    }
+  }
 
-const {error}=await supabaseClient
-.from("iftar26_registrations")
-.insert([{name,email,phone,payment_method:paymentMethod,transaction_id:transId}]);
-
-if(error){
-console.error(error);
-errorMsg.style.display="block";
-successMsg.style.display="none";
-}else{
-
-successMsg.style.display="block";
-errorMsg.style.display="none";
-
-form.reset();
-
-loadStats();
-
-}
-
-});
-
-async function loadStats(){
-
-const {count}=await supabaseClient
-.from("iftar26_registrations")
-.select("*",{count:"exact",head:true});
-
-document.getElementById("regCount").innerText=count;
-
-const {data}=await supabaseClient
-.from("iftar26_registrations")
-.select("name")
-.order("created_at",{ascending:false})
-.limit(5);
-
-const list=document.getElementById("recentList");
-list.innerHTML="";
-
-data.forEach(user=>{
-const li=document.createElement("li");
-li.innerText=user.name;
-list.appendChild(li);
-});
-
-}
-
-loadStats();
-
+  loadStats();
+  setInterval(loadStats, 10000);
 </script>
 </body>
 </html>
