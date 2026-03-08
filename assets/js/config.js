@@ -1,9 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+const supabaseUrl = "https://eenlpvlwyoxajlcikmzi.supabase.co";
+const supabaseKey = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
 
-const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co"
-
-const SUPABASE_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE"
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
-
-window.supabase = supabase
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
