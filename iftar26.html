@@ -3,182 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BPian 19 Ifar Mahfil</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<title>Bpian 19 Iftar Mahfil</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.7.0/dist/supabase.min.js"></script>
 <style>
-  /* ===== Body & Background ===== */
   body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #0B3D2E, #051C14);
-    color: #fff;
-    overflow-x: hidden;
-    position: relative;
+    font-family: 'Inter', sans-serif;
+    margin: 0; padding: 0;
+    background: #0b3d2e; color: #fff;
   }
-
-  /* ===== Fonts & Glow ===== */
-  h1,h2,h3 {
-    font-family: 'Playfair Display', serif;
-    text-align: center;
-    color: #f6c104;
-    text-shadow: 0 0 15px #3f3600;
-    margin-bottom: 20px;
-  }
-
-  p { line-height: 1.6; }
-
-  /* ===== Container ===== */
   .container {
-    max-width: 950px;
-    margin: 50px auto;
-    background: rgba(3, 30, 11, 0.937);
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 50px rgba(248, 240, 195, 0.852);
-    border: 2px solid #a59200;
-    z-index: 1;
-    position: relative;
+    max-width: 800px;
+    margin: 40px auto;
+    background: #0b3d2e;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #ffd700;
   }
-
-  /* ===== Event Details ===== */
-  .event-details {
-    background: rgba(8, 53, 0, 0.932);
-    padding: 25px;
-    border-left: 8px solid #FFD700;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 5px 25px rgba(244, 235, 188, 0.884);
-  }
-  .event-details p { margin: 10px 0; font-weight: 500; color: #EEE8AA; }
-
-  /* ===== Payment Info ===== */
-  .payment-info {
-    background: rgba(255,215,0,0.08);
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 5px 25px rgba(255,215,0,0.2);
-  }
-  .payment-info h2 { margin-bottom: 15px; }
-  .payment-info p { margin: 6px 0; font-weight: 500; color: #FFEFD5; }
-  .payment-note { color: #FF6347; font-weight: bold; text-align: center; margin-top: 10px; }
-
-  /* ===== Register Button ===== */
+  h1,h2,h3 { font-family: 'Playfair Display', serif; color: #ffd700; margin-bottom: 15px; text-align:center; }
+  .event-details, .payment-info, .live-counter, .contact { margin-bottom: 25px; }
+  .event-details p, .payment-info p, .contact p { margin: 6px 0; color: #eee; }
   #registerBtn {
     display: block;
-    margin: 25px auto;
-    padding: 18px 35px;
-    background: linear-gradient(45deg, #FFD700, #32CD32);
-    color: #fff;
+    margin: 15px auto;
+    padding: 12px 25px;
+    background: #ffd700;
+    color: #0b3d2e;
     border: none;
-    border-radius: 15px;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 22px;
-    font-weight: bold;
-    transition: 0.3s;
-    box-shadow: 0 5px 25px rgba(255,215,0,0.5);
   }
-  #registerBtn:hover {
-    transform: scale(1.07);
-    background: linear-gradient(45deg, #FFB347, #32CD32);
-    box-shadow: 0 8px 35px rgba(255,215,0,0.7);
-  }
-
-  /* ===== Form ===== */
-  form {
-    display: none;
-    margin-top: 20px;
-    background: rgba(0,61,46,0.95);
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 5px 25px rgba(255,215,0,0.3);
-  }
+  #registerBtn:hover { background: #e6c200; }
+  form { display: none; margin-top: 20px; }
   form input, form select, form button {
-    width: 100%;
-    padding: 16px;
-    margin: 12px 0;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
+    width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc;
   }
-  form button {
-    background: linear-gradient(45deg, #FFD700, #32CD32);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    font-weight: bold;
-    font-size: 18px;
-    box-shadow: 0 5px 20px rgba(255,215,0,0.5);
-  }
-  form button:hover { transform: scale(1.03); }
-
-  /* ===== Success & Error ===== */
-  .success-msg, .error-msg {
-    display: none;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 15px;
-    font-size: 16px;
-  }
-  .success-msg { color: #32CD32; }
-  .error-msg { color: #FF6347; }
-
-  /* ===== Gallery ===== */
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 30px 0;
-  }
-  .gallery img {
-    width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 5px 25px rgba(255,215,0,0.3);
-    object-fit: cover;
-    transition: 0.3s;
-  }
-  .gallery img:hover { transform: scale(1.05); }
-
-  .gallery-caption {
-    text-align: center;
-    color: #FFD700;
-    margin-top: 5px;
-    font-weight: 500;
-  }
-
-  /* ===== Live Counter ===== */
-  .live-counter {
-    background: rgba(255,215,0,0.08);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 5px 20px rgba(255,215,0,0.2);
-    text-align: center;
-  }
-  .live-counter h3 { color: #FFD700; margin-bottom: 10px; }
-  .live-counter ul { list-style: none; padding: 0; }
-  .live-counter li { margin: 5px 0; color: #FFF8DC; }
-
-  /* ===== Contact ===== */
-  .contact {
-    background: rgba(255,215,0,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 30px;
-    text-align: center;
-  }
-  .contact p { margin: 6px 0; font-weight: bold; font-size: 16px; }
-
-  /* ===== Responsive ===== */
-  @media(max-width: 768px){
-    .container { padding: 20px; }
-    h1 { font-size: 28px; }
-    h2,h3 { font-size: 22px; }
-  }
+  form button { background: #ffd700; color: #0b3d2e; font-weight: 600; cursor: pointer; }
+  .success-msg { color: #32cd32; display:none; text-align:center; font-weight:600; }
+  .error-msg { color: #ff6347; display:none; text-align:center; font-weight:600; }
+  .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-top:15px; }
+  .gallery img { width:100%; border-radius:6px; }
+  .gallery-caption { text-align:center; color:#ffd700; font-size:14px; margin-top:4px; }
+  .live-counter ul { list-style:none; padding-left:0; }
+  .live-counter li { margin:4px 0; color:#eee; }
 </style>
 </head>
 <body>
@@ -190,24 +58,20 @@
     <p><strong>Date:</strong> Sunday, 28th Ramadan, 18 March 2026</p>
     <p><strong>Time:</strong> 4:00 PM</p>
     <p><strong>Venue:</strong> Panchagarh BP Government High School</p>
-    <p><strong>Description:</strong> Join us for the Iftar 26 Mahfil, a blessed evening to share Iftar, strengthen community bonds, and enjoy spiritual reflections. A joyous gathering with delicious Iftar, conversations, and togetherness.</p>
+    <p><strong>Description:</strong> Join us for a blessed evening to share Iftar, enjoy community togetherness, and spiritual reflection.</p>
     <p><strong>Fee:</strong> 200 BDT per person</p>
   </div>
 
   <div class="payment-info">
-    <h2>Payment Information</h2>
+    <h2>Payment Info</h2>
     <p><strong>Methods:</strong> Bkash / Nagad / Rocket / Bank Transfer</p>
-    <p><strong>Mobile Payment Number:</strong> 01995494987</p>
-    <p><strong>Bank Account Number:</strong> 1061141920001</p>
-    <p><strong>Account Name:</strong> ROKONUR ZAMAN ROKON</p>
-    <p><strong>Bank Name:</strong> BRAC Bank PLC</p>
-    <p><strong>Branch:</strong> PANCHAGAR SME/KRISHI BR</p>
-    <p class="payment-note">Please pay first, then fill the registration form.</p>
+    <p><strong>Mobile:</strong> 01995494987</p>
+    <p><strong>Bank:</strong> BRAC Bank PLC | 1061141920001 | ROKONUR ZAMAN ROKON | PANCHAGAR SME/KRISHI BR</p>
+    <p style="color:#ff6347;">Please pay first, then fill the registration form.</p>
   </div>
 
   <div class="live-counter">
-    <h3>Total Registered:</h3>
-    <p id="totalCount">0</p>
+    <h3>Total Registered: <span id="totalCount">0</span></h3>
     <h3>Last 5 Registrants:</h3>
     <ul id="lastFive"></ul>
   </div>
@@ -226,29 +90,17 @@
       <option value="Bank">Bank</option>
     </select>
     <input type="text" id="iftar26-transId" placeholder="Transaction ID (Required)" required>
-    <button type="submit">Submit Registration</button>
-    <p class="success-msg" id="iftar26-successMsg">Thank you for registering! See you at the Iftar Mahfil.</p>
+    <button type="submit">Submit</button>
+    <p class="success-msg" id="iftar26-successMsg">Thank you for registering!</p>
     <p class="error-msg" id="iftar26-errorMsg">Oops! Something went wrong. Please try again.</p>
   </form>
 
   <h2>Past Iftar Memories</h2>
   <div class="gallery">
-    <div>
-      <img src="assets/img/2022.webp" alt="Iftar 2022">
-      <div class="gallery-caption">2022</div>
-    </div>
-    <div>
-      <img src="assets/img/2023.webp" alt="Iftar 2023">
-      <div class="gallery-caption">2023</div>
-    </div>
-    <div>
-      <img src="assets/img/2024.webp" alt="Iftar 2024">
-      <div class="gallery-caption">2024</div>
-    </div>
-    <div>
-      <img src="assets/img/2025.webp" alt="Iftar 2025">
-      <div class="gallery-caption">2025</div>
-    </div>
+    <div><img src="assets/img/2022.webp" alt="Iftar 2022"><div class="gallery-caption">2022</div></div>
+    <div><img src="assets/img/2023.webp" alt="Iftar 2023"><div class="gallery-caption">2023</div></div>
+    <div><img src="assets/img/2024.webp" alt="Iftar 2024"><div class="gallery-caption">2024</div></div>
+    <div><img src="assets/img/2025.webp" alt="Iftar 2025"><div class="gallery-caption">2025</div></div>
   </div>
 
   <div class="contact">
@@ -260,74 +112,73 @@
 
 <script src="assets/js/config.js"></script>
 <script>
-  // Supabase setup
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const registerBtn = document.getElementById('registerBtn');
-  const form = document.getElementById('iftar26Form');
-  const successMsg = document.getElementById('iftar26-successMsg');
-  const errorMsg = document.getElementById('iftar26-errorMsg');
-  const totalCountEl = document.getElementById('totalCount');
-  const lastFiveEl = document.getElementById('lastFive');
+const registerBtn = document.getElementById('registerBtn');
+const form = document.getElementById('iftar26Form');
+const successMsg = document.getElementById('iftar26-successMsg');
+const errorMsg = document.getElementById('iftar26-errorMsg');
+const totalCountEl = document.getElementById('totalCount');
+const lastFiveEl = document.getElementById('lastFive');
 
-  registerBtn.addEventListener('click', () => {
-    form.style.display = 'block';
-    registerBtn.style.display = 'none';
-    form.scrollIntoView({ behavior: 'smooth' });
-  });
+registerBtn.addEventListener('click', () => {
+  form.style.display = 'block';
+  registerBtn.style.display = 'none';
+  form.scrollIntoView({ behavior: 'smooth' });
+});
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('iftar26-name').value;
-    const email = document.getElementById('iftar26-email').value;
-    const phone = document.getElementById('iftar26-phone').value;
-    const paymentMethod = document.getElementById('iftar26-paymentMethod').value;
-    const transId = document.getElementById('iftar26-transId').value;
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('iftar26-name').value;
+  const email = document.getElementById('iftar26-email').value;
+  const phone = document.getElementById('iftar26-phone').value;
+  const paymentMethod = document.getElementById('iftar26-paymentMethod').value;
+  const transId = document.getElementById('iftar26-transId').value;
 
-    try {
-      const { data, error } = await supabase
-        .from('iftar26_registrations')
-        .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
-      if (error) throw error;
-
-      successMsg.style.display = 'block';
-      errorMsg.style.display = 'none';
-      form.reset();
-      loadCounter();
-    } catch (err) {
-      console.error("Supabase Error:", err);
-      successMsg.style.display = 'none';
-      errorMsg.style.display = 'block';
-    }
-  });
-
-  // Load live counter and last 5 registrants
-  async function loadCounter() {
+  try {
     const { data, error } = await supabase
       .from('iftar26_registrations')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .limit(5);
-    if (error) return console.error(error);
+      .insert([{ name, email, phone, payment_method: paymentMethod, transaction_id: transId }]);
+    if (error) throw error;
 
-    // Total count
-    const { count } = await supabase
-      .from('iftar26_registrations')
-      .select('*', { count: 'exact' });
-    totalCountEl.textContent = count;
-
-    // Last 5 registrants
-    lastFiveEl.innerHTML = '';
-    data.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = `${item.name} (${item.payment_method})`;
-      lastFiveEl.appendChild(li);
-    });
+    successMsg.style.display = 'block';
+    errorMsg.style.display = 'none';
+    form.reset();
+    loadCounter();
+  } catch (err) {
+    console.error("Supabase Error:", err);
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'block';
   }
+});
 
-  // Refresh every 10 seconds
-  setInterval(loadCounter, 10000);
-  loadCounter();
+// Live counter function
+async function loadCounter() {
+  const { data: lastFive, error } = await supabase
+    .from('iftar26_registrations')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  if (error) return console.error(error);
+
+  const { count, error: countErr } = await supabase
+    .from('iftar26_registrations')
+    .select('*', { count: 'exact' });
+  if (countErr) return console.error(countErr);
+
+  totalCountEl.textContent = count;
+  lastFiveEl.innerHTML = '';
+  lastFive.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} (${item.payment_method})`;
+    lastFiveEl.appendChild(li);
+  });
+}
+
+// Refresh counter every 10s
+setInterval(loadCounter, 10000);
+loadCounter();
 </script>
 </body>
 </html>
