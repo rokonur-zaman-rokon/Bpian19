@@ -239,68 +239,80 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
 <script>
-    // Supabase config
-    const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
+const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function nextStep(step) {
-        document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
-        document.getElementById('step' + step).classList.add('step-active');
+function nextStep(step) {
+    document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
+    document.getElementById('step' + step).classList.add('step-active');
+}
+
+const form = document.getElementById('premiumForm');
+const statusMsg = document.getElementById('statusMsg');
+const submitBtn = document.getElementById('submitBtn');
+const totalCountEl = document.getElementById('totalCount');
+const lastFiveEl = document.getElementById('lastFive');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // prevent default form submission
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Processing...";
+    statusMsg.innerHTML = "";
+
+    const payload = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        payment_method: document.getElementById('method').value,
+        transaction_id: document.getElementById('transId').value,
+        created_at: new Date()
+    };
+
+    try {
+        const { error } = await supabase.from('iftar26_registrations').insert([payload]);
+        if (error) throw error;
+
+        // show success page
+        nextStep(3);
+        loadCounter();
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Confirm Registration";
+    } catch (err) {
+        console.error(err);
+        statusMsg.className = "error";
+        statusMsg.innerText = "Error: Could not connect to database. Please check your connection.";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Confirm Registration";
     }
+});
 
-    const form = document.getElementById('premiumForm');
-    const statusMsg = document.getElementById('statusMsg');
-    const submitBtn = document.getElementById('submitBtn');
-    const totalCountEl = document.getElementById('totalCount');
-    const lastFiveEl = document.getElementById('lastFive');
+async function loadCounter() {
+    try {
+        const { data: lastFive } = await supabase
+            .from('iftar26_registrations')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(5);
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Processing...";
-        statusMsg.innerHTML = "";
+        const { count } = await supabase
+            .from('iftar26_registrations')
+            .select('*', { count: 'exact' });
 
-        const payload = {
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            payment_method: document.getElementById('method').value,
-            transaction_id: document.getElementById('transId').value,
-            created_at: new Date()
-        };
-
-        try {
-            const { error } = await supabase.from('iftar26_registrations').insert([payload]);
-            if (error) throw error;
-
-            nextStep(3);
-            loadCounter();
-        } catch (err) {
-            console.error(err);
-            statusMsg.className = "error";
-            statusMsg.innerText = "Error: Could not connect to database. Please check your connection.";
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Confirm Registration";
-        }
-    });
-
-    async function loadCounter() {
-        try {
-            const { data: lastFive } = await supabase.from('iftar26_registrations').select('*').order('created_at', { ascending: false }).limit(5);
-            const { count } = await supabase.from('iftar26_registrations').select('*', { count: 'exact' });
-
-            totalCountEl.textContent = count || 0;
-            lastFiveEl.innerHTML = '';
-            lastFive.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `${item.name} (${item.payment_method})`;
-                lastFiveEl.appendChild(li);
-            });
-        } catch(err) { console.error(err); }
+        totalCountEl.textContent = count || 0;
+        lastFiveEl.innerHTML = '';
+        lastFive.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.name} (${item.payment_method})`;
+            lastFiveEl.appendChild(li);
+        });
+    } catch (err) {
+        console.error(err);
     }
+}
 
-    loadCounter();
-    setInterval(loadCounter, 10000);
+loadCounter();
+setInterval(loadCounter, 10000);
 </script>
 </body>
 </html>
