@@ -286,10 +286,12 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
 <script>
-  // Supabase client
+  // Correct Supabase client initialization
   const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
-  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  
+  // Use the global 'supabase' from the CDN
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // Step navigation
   function nextStep(step){
@@ -315,18 +317,20 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
       phone: document.getElementById('phone').value,
       payment_method: document.getElementById('method').value,
       transaction_id: document.getElementById('transId').value,
-      created_at: new Date()
+      created_at: new Date().toISOString()
     };
 
     try{
-      const { error } = await supabase.from('iftar26_registrations').insert([payload]);
+      const { data, error } = await supabaseClient
+        .from('iftar26_registrations')
+        .insert([payload]);
       if(error) throw error;
       nextStep(3);
       loadStats();
       form.reset();
     }catch(err){
       console.error(err);
-      statusMsg.style.color = "red";
+      statusMsg.classList.add('error');
       statusMsg.innerText = "Error saving data!";
     }finally{
       submitBtn.disabled = false;
@@ -335,10 +339,12 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
   });
 
   async function loadStats(){
-    const { data: lastFive, count } = await supabase.from('iftar26_registrations')
+    const { data: lastFive, count } = await supabaseClient
+      .from('iftar26_registrations')
       .select('*', { count: 'exact' })
       .order('created_at', { ascending:false })
       .limit(5);
+
     totalCountEl.innerText = count || 0;
     lastFiveEl.innerHTML = '';
     if(lastFive){
