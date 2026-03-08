@@ -285,7 +285,11 @@ input:focus { outline: none; border-color: var(--primary-gold); box-shadow: 0 0 
 <footer>
     <p>&copy; 2026 BPIAN-19. All rights reserved.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+document.addEventListener("DOMContentLoaded", function(){
 
 const SUPABASE_URL = "https://eenlpvlwyoxajlcikmzi.supabase.co";
 const SUPABASE_KEY = "sb_publishable_9arPz9Gw94ymewnxj7rzbA_S6F5DxEE";
@@ -318,10 +322,10 @@ form.addEventListener("submit", async function(e){
   .from("iftar26_registrations")
   .insert([
     {
-      name:name,
-      phone:phone,
-      payment_method:method,
-      transaction_id:transId
+      name: name,
+      phone: phone,
+      payment_method: method,
+      transaction_id: transId
     }
   ]);
 
@@ -364,6 +368,8 @@ async function loadStats(){
 
 loadStats();
 setInterval(loadStats,10000);
+
+});
 
 </script>
 </body>
